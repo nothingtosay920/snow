@@ -5,23 +5,31 @@ import {
   View,
 } from 'react-native';
 import {Navigation} from 'react-native-navigation';
+import styled from 'styled-components/native'
 const App = (props) => {
-  return (
-    <View style={styles.root}>
-      <Text>Hello React Native Navigation 👋</Text>
-    </View>
-  );
+//   const Mydiv = styled.div`
+//   flex: 1;
+//   alignItems: 'center';
+//   justifyContent: 'center';
+//   backgroundColor: 'whitesmoke';
+// `
+  return <Button><Text>5555</Text></Button>
 };
 
+const Button = styled.View`
+align-items: center;
+position: relative;
+background: #666;
+`
 App.options = {
   topBar: {
     title: {
-      text: 'Home',
-      color: 'white',
+      text: 'Snow',
+      color: 'black',
       alignment: 'center'
     },
     background: {
-      color: '#303133',
+      color: '#f0fcff',
     },
     leftButtons: [
       {
@@ -56,13 +64,5 @@ Navigation.events().registerAppLaunchedListener(async () => {
   });
 });
 
-const styles = StyleSheet.create({
-  root: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: 'whitesmoke',
-  },
-});
 
 export default App;
