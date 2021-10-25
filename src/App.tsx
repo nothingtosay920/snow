@@ -7,12 +7,6 @@ import {
 import {Navigation} from 'react-native-navigation';
 import styled from 'styled-components/native'
 const App = (props) => {
-//   const Mydiv = styled.div`
-//   flex: 1;
-//   alignItems: 'center';
-//   justifyContent: 'center';
-//   backgroundColor: 'whitesmoke';
-// `
   return <Button><Text>5555</Text></Button>
 };
 
