@@ -1,20 +1,33 @@
 import React from 'react';
+import { ApolloClient, InMemoryCache, ApolloProvider } from '@apollo/client';
 import {
   StyleSheet,
   Text,
   View,
+  AppRegistry
 } from 'react-native';
 import {Navigation} from 'react-native-navigation';
 import styled from 'styled-components/native'
-const App = (props) => {
-  return <Button><Text>5555</Text></Button>
-};
 
-const Button = styled.View`
-align-items: center;
-position: relative;
-background: #666;
-`
+const apiUrl = process.env.REACT_APP_API_URL || ''
+
+// Initialize Apollo Client
+const client = new ApolloClient({
+  uri: `${apiUrl}`,
+  cache: new InMemoryCache()
+});
+const App = () => (
+  <ApolloProvider client={client}>
+    <View>5555</View>
+  </ApolloProvider>
+)
+
+
+// const Button = styled.View`
+// align-items: center;
+// position: relative;
+// background: #666;
+// `
 App.options = {
   topBar: {
     title: {
