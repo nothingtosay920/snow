@@ -1,17 +1,27 @@
+import React from 'react'
 import { NavigationFunctionComponent } from 'react-native-navigation';
-import { View, FlatList } from 'react-native'
+import { View, FlatList, Text } from 'react-native'
+import { useTournamentList } from './utils';
+import { http } from '../../utills/http';
+import { competitionAPI } from '../../utills/base-url';
 
-const Competition: NavigationFunctionComponent = (props) => {
-
-  
+export const Competition: React.FC = (props) => {
+  const { data: List, isError } = useTournamentList()
+  console.log(List?.data.tournament_list, 'data')
   return (
     <>
-      <View>职业赛事</View>
-      <FlatList 
-        data = {data}
-      >
-
-      </FlatList>
-    </>
+      <Text>职业赛事</Text>
+        { isError && <Text>{isError}</Text> }
+        {/* <FlatList 
+        data = {List?.data.tournament_list}
+        >
+      </FlatList> */}
+      </>
   );
 }
+
+{/* { isError && <Text>CHU CUO LE</Text>} */}
+      {/* <FlatList 
+        data = {List?.data.tournament_list}
+      >
+      </FlatList> */}

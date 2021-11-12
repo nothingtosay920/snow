@@ -1,28 +1,32 @@
 import React from 'react';
-import { ApolloClient, InMemoryCache, ApolloProvider } from '@apollo/client';
 import {
   StyleSheet,
   Text,
   View,
   AppRegistry
 } from 'react-native';
-import {Navigation} from 'react-native-navigation';
-import styled from 'styled-components/native'
+import { QueryClientProvider, QueryClient } from 'react-query';
+// import styled from 'styled-components/native'
+import { CompetitionIndex } from './screens/data/index';
+const queryClient = new QueryClient()
 
-const apiUrl = process.env.REACT_APP_API_URL || ''
-
-// Initialize Apollo Client
-const client = new ApolloClient({
-  uri: `${apiUrl}`,
-  cache: new InMemoryCache()
-});
-const App = () => (
-  <ApolloProvider client={client}>
-    <View>5555</View>
-  </ApolloProvider>
-)
+const App = () => {
 
 
+  return (
+  <>
+    <QueryClientProvider client={queryClient}>
+    <Text>5555asd</Text>
+    <CompetitionIndex></CompetitionIndex>
+    </QueryClientProvider>
+
+  </>
+  )
+}
+
+
+
+ 
 // const Button = styled.View`
 // align-items: center;
 // position: relative;
@@ -52,24 +56,5 @@ App.options = {
     ]
   },
 };
-
-Navigation.registerComponent('App', () => App);
-
-Navigation.events().registerAppLaunchedListener(async () => {
-  Navigation.setRoot({
-    root: {
-      stack: {
-        children: [
-          {
-            component: {
-              name: 'App',
-            },
-          },
-        ],
-      },
-    },
-  });
-});
-
 
 export default App;

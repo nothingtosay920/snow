@@ -1,16 +1,21 @@
 import qs from 'qs'
-
-const apiUrl = process.env.REACT_APP_API_URL || ''
+import { useCallback } from 'react'
 
 interface Config extends RequestInit {
   data?: object
   token?: string
+  url?: boolean
 }
 
-export const http = async (
-  endpoint: string, 
-  { data, token, headers, ...customConfig }: Config = { method: 'GET' }
+const isURL = (address: string) => {
+  return address.indexOf('http://') === 0 || address.indexOf('https://') === 0
+}
+
+export const http =  (
+  address: string, 
+  { data, token, headers, url, ...customConfig }: Config = { method: 'GET' }
 ) => {
+    const apiUrl = isURL(address) ? address : `${process.env.REACT_APP_API_URL}/${address}`
     const config = {
       method: 'Get',
       headers: {
@@ -19,16 +24,28 @@ export const http = async (
       },
       ...customConfig
     }
-    if (config.method.toUpperCase() === "GET") {
-      endpoint += `?${qs.stringify(data)}`;
+    if (config.method.toUpperCase() === "GET" ) {
+      address += `?${qs.stringify(data)}`;
     }
 
-    return fetch(`${apiUrl}/${endpoint}`, config).then(async (response) => {
+    return fetch(apiUrl as string, config).then(async (response) => {
       if (response.ok) {
-        return data
+        return response.json()
       } else {
         return Promise.reject(data)
       }
     })
 }
 
+
+export const useHttp = () => {
+  // const { user } = useAuth()
+  const user = { token: ''}
+  return useCallback(
+    (address: string, config?: Config) => {
+      return http(address, { ...config, token: user?.token })
+    },
+    [user?.token],
+
+  )
+}
