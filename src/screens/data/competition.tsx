@@ -1,12 +1,17 @@
 import React from 'react'
-import { View, FlatList, Text, Image } from 'react-native'
+import { View, FlatList, Text, Image, PixelRatio } from 'react-native'
 import { useTournamentList } from './utils';
 import { http } from '../../utills/http';
 import { competitionAPI } from '../../utills/base-url';
 import styled from 'styled-components/native'
+import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen'
+
 
 export const Competition: React.FC = (props) => {
   const { data: List, isError } = useTournamentList()
+  console.time('test')
+  const test = PixelRatio.roundToNearestPixel(50)
+  console.timeEnd('test')
   const renderItem = ({item}) => {
     return <RowFlexBox>
       <NomalImage source={{uri: item.list_image_url}} />
@@ -18,19 +23,19 @@ export const Competition: React.FC = (props) => {
   }
 
   const Separation = styled.View`
-    height: 1;
-    width: 96%;
+    height: ${wp(0.1)}px;
+    width: ${wp('96%')};
     background: black;
     margin: 0px auto;
   `
 
   const Title = styled.Text`
-    fontSize: 16;
+    fontSize: 16px;
     fontWeight: bold; 
   `
   const NomalImage = styled.Image`
-    width: 50;
-    height: 50
+    width: 50px;
+    height: 50px;
   `
   const RowFlexBox = styled.View`
     flexDirection: row
