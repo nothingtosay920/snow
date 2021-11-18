@@ -9,9 +9,7 @@ import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-nativ
 
 export const Competition: React.FC = (props) => {
   const { data: List, isError } = useTournamentList()
-  console.time('test')
-  const test = PixelRatio.roundToNearestPixel(50)
-  console.timeEnd('test')
+  
   const renderItem = ({item}) => {
     return <RowFlexBox>
       <NomalImage source={{uri: item.list_image_url}} />
@@ -23,8 +21,8 @@ export const Competition: React.FC = (props) => {
   }
 
   const Separation = styled.View`
-    height: ${wp(0.1)}px;
-    width: ${wp('96%')};
+    height: 100;
+    width: ${wp('96%')}px;
     background: black;
     margin: 0px auto;
   `
