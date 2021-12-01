@@ -4,15 +4,19 @@ import { useTournamentList } from './utils';
 import styled from 'styled-components/native'
 import {widthUnit as w, heightUnit as h} from 'rn-flexible'
 import { NomalImage, StandRowBox, FlexBox, SmallText, StandardTitle, StandardText } from '../../styles/standard';
+import { TournamentListItem } from '../../types/competition';
 
 
 export const Competition = () => {
   const { data: List, isError } = useTournamentList()
-  const ref = useRef('initialValue')
-  const [refreshing, setRefreshing] = useState(false)
+  // const [refreshing, setRefreshing] = useState(false)
 
+  // const onRefresh = React.useCallback(() => {
+  //   console.log('reload');
+  // }, []);
+  
   const renderItem = useMemo(() =>
-  ({item}) => {
+  ({item}: {item:TournamentListItem} ) => {
       return <StandRowBox>
         <NomalImage source={{uri: item.list_image_url}} />
         <FlexBox>
@@ -21,17 +25,20 @@ export const Competition = () => {
         </FlexBox>
       </StandRowBox>
   }
-  , [ref])
+  , [])
   
   return (
     <>
       <StandardTitle>职业赛事</StandardTitle>
         { isError && <Text>{isError}</Text> }
-        <FlatList 
-        data = {List?.data.tournament_list}
-        renderItem={renderItem}
-        ItemSeparatorComponent={Separation}
-        windowSize={60}
+      <FlatList 
+          data = {List?.data.tournament_list}
+          renderItem={renderItem}
+          ItemSeparatorComponent={Separation}
+          windowSize={60}
+          keyExtractor={(item) => item.tournamentID}
+          // refreshing={refreshing}
+          // onRefresh={onRefresh}
         >
       </FlatList>
     </>

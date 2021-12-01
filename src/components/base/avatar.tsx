@@ -1,12 +1,13 @@
 import React from 'react'
-import { Image, Pressable, ImageSourcePropType } from 'react-native'
+import { Pressable, ImageSourcePropType } from 'react-native'
+import { IconImage } from '../../styles/standard'
 
-export type AvatarProps = {uri: ImageSourcePropType}
+export type IconImgProps = {uri: ImageSourcePropType}
 
-export const Avatar: React.FunctionComponent<AvatarProps> = ({uri}) => {
+export const IconImg: React.FunctionComponent<IconImgProps> = ({uri}) => {
   return (
     <Pressable onPress={() => console.log('跳转')}>
-      <Image source={uri}></Image>
+      <IconImage source={uri}/>
     </Pressable>
   )
 }

@@ -11,6 +11,12 @@ export const NomalImage = styled.Image`
   height: ${h(0.8)}px;
   margin: ${w(0.2)}px;
 `
+export const IconImage = styled.Image`
+  width: ${w(0.8)}px;
+  height: ${w(0.8)}px;
+  margin: ${w(0.2)}px;
+`
+
 export const SmallText = styled.Text`
   fontSize: ${w(0.3)}px;
   color: #7e7c7c;

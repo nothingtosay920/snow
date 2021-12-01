@@ -1,8 +1,8 @@
 import React from 'react'
-import { Avatar } from './avatar'
-
+import { IconImg } from './avatar'
+import { search } from '../../uills/imges'
 export const Search = () => {
   return (
-    <Avatar uri={require('../base/assets/search.png')}></Avatar>
+    <IconImg uri={search}/>
   )
 }

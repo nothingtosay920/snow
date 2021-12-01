@@ -6,7 +6,7 @@ export interface TournamentList {
   }
 } 
 
-type TournamentListItem = {
+export type TournamentListItem = {
   tournamentID: string,
   name: string,
   list_image_url: string,
@@ -16,3 +16,5 @@ type TournamentListItem = {
   organizer: string,
   address: string
 }
+
+type a = string[]
