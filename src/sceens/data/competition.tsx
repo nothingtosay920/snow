@@ -1,5 +1,5 @@
 import React, { useMemo, useRef, useState } from 'react'
-import { View, FlatList, Text, Image, PixelRatio } from 'react-native'
+import { View, FlatList, Text, RefreshControl } from 'react-native'
 import { useTournamentList } from './utils';
 import styled from 'styled-components/native'
 import {widthUnit as w, heightUnit as h} from 'rn-flexible'
@@ -9,12 +9,17 @@ import { TournamentListItem } from '../../types/competition';
 
 export const Competition = () => {
   const { data: List, isError } = useTournamentList()
-  // const [refreshing, setRefreshing] = useState(false)
+  const [refreshing, setRefreshing] = useState(false)
 
-  // const onRefresh = React.useCallback(() => {
-  //   console.log('reload');
-  // }, []);
+  const onRefresh = React.useCallback(() => {
+    console.log('reload')
+  }, []);
   
+  const onScroll = () => {
+    setRefreshing(true)
+    console.log('111', refreshing);
+  }
+
   const renderItem = useMemo(() =>
   ({item}: {item:TournamentListItem} ) => {
       return <StandRowBox>
@@ -37,8 +42,11 @@ export const Competition = () => {
           ItemSeparatorComponent={Separation}
           windowSize={60}
           keyExtractor={(item) => item.tournamentID}
-          // refreshing={refreshing}
-          // onRefresh={onRefresh}
+          // ListFooterComponent={<RefreshControl progressViewOffset={h(10)} refreshing={refreshing} onRefresh={onRefresh} />}
+          onRefresh={onRefresh}
+          onScroll={onScroll}
+          scrollEventThrottle={7200}
+          refreshing={true}
         >
       </FlatList>
     </>

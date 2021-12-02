@@ -17,4 +17,3 @@ export type TournamentListItem = {
   address: string
 }
 
-type a = string[]
