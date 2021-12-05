@@ -1,25 +1,56 @@
-import React, { useMemo, useRef, useState } from 'react'
-import { View, FlatList, Text, RefreshControl } from 'react-native'
+import React, { createContext, useContext, useEffect, useMemo, useRef, useState } from 'react'
+import { View, FlatList, Text, RefreshControl, ActivityIndicator } from 'react-native'
 import { useTournamentList } from './utils';
 import styled from 'styled-components/native'
 import {widthUnit as w, heightUnit as h} from 'rn-flexible'
 import { NomalImage, StandRowBox, FlexBox, SmallText, StandardTitle, StandardText } from '../../styles/standard';
 import { TournamentListItem } from '../../types/competition';
+import { usePageList } from '../../uills/pageList';
+import { Details } from './detail';
 
+let cleartimer: number | undefined
+const timeOutSet = (time: number, setFunc: any, value: any) => {
+  const timer = setTimeout(() => {
+    setFunc.current = value
+  console.log(setFunc.current);
+  }, time);
+  return timer
+}
 
 export const Competition = () => {
   const { data: List, isError } = useTournamentList()
-  const [refreshing, setRefreshing] = useState(false)
+  const [page, setpage] = useState(0)
+  const Loding = useRef(false)
+  useEffect(() => {
+    return () => {
+      cleartimer &&  clearTimeout(cleartimer)
+    }
+  }, [])
 
-  const onRefresh = React.useCallback(() => {
-    console.log('reload')
-  }, []);
+  // const [refreshing, setRefreshing] = useState(false)
+  // const [List, setList] = useState(data)
+  // const onRefresh = React.useCallback(() => {
+  //   console.log('reload')
+  // }, []);
   
-  const onScroll = () => {
-    setRefreshing(true)
-    console.log('111', refreshing);
+
+  console.log('我开始渲染了', Loding.current);
+  
+
+  
+
+  const onEndReach = () => {
+    // if (Loading.current) return
+    // setLoding(true)
+    Loding.current = true
+    setpage((prevState) => prevState + 1)
+    // if (!cleartimer) {
+      cleartimer = timeOutSet(1000, Loding, false) 
+      console.log(cleartimer);
+    // }
   }
 
+  
   const renderItem = useMemo(() =>
   ({item}: {item:TournamentListItem} ) => {
       return <StandRowBox>
@@ -30,25 +61,25 @@ export const Competition = () => {
         </FlexBox>
       </StandRowBox>
   }
-  , [])
+  , [List])
   
   return (
     <>
       <StandardTitle>职业赛事</StandardTitle>
         { isError && <Text>{isError}</Text> }
       <FlatList 
-          data = {List?.data.tournament_list}
+          data = {usePageList(List?.data.tournament_list, page)}
           renderItem={renderItem}
           ItemSeparatorComponent={Separation}
           windowSize={60}
           keyExtractor={(item) => item.tournamentID}
-          // ListFooterComponent={<RefreshControl progressViewOffset={h(10)} refreshing={refreshing} onRefresh={onRefresh} />}
-          onRefresh={onRefresh}
-          onScroll={onScroll}
-          scrollEventThrottle={7200}
-          refreshing={true}
+          // onRefresh={onRefresh}
+          // refreshing={true}
+          onEndReached={onEndReach}
+          onEndReachedThreshold={0}
         >
       </FlatList>
+      <Details Loding={Loding.current}></Details>
     </>
   );
 }
