@@ -7,7 +7,7 @@ const getBigNum = (num: number) => {
     return num 
 }
 
-const transFromPageList = (arr: any[] | undefined, page: number = 0, nums: number = 1) => {
+const transFromPageList = (arr: any[] | undefined, page: number = 0, nums: number = 100) => {
   if (!arr) return []
   const res: any[] = []
   let min = 0

@@ -1,12 +1,18 @@
-import React from 'react'
-import { NavigationFunctionComponent } from 'react-native-navigation';
-import { useQueryClient, QueryClientProvider } from 'react-query';
+import React, { useState } from 'react'
+import { ActivityIndicator } from 'react-native';
 import { Competition } from './competition';
 
 
+const LodingComponent = (props) => {
+  return <ActivityIndicator size="small" color="#0000ff" animating={props.loading} />
+}
+
 export const CompetitionIndex: React.FC = () => {
-  
+  const [loading, setloading] = useState(false)
   return (
-    <Competition></Competition>
+    <>
+      <Competition setLoading={setloading}></Competition>
+      <LodingComponent loading={loading}></LodingComponent>
+    </>
   );
 }
