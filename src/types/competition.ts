@@ -1,11 +1,3 @@
-export interface TournamentList {
-  code: string,
-  message: string,
-  data: {
-    tournament_list: TournamentListItem[]
-  }
-} 
-
 export type TournamentListItem = {
   tournamentID: string,
   name: string,
@@ -17,3 +9,13 @@ export type TournamentListItem = {
   address: string
 }
 
+export type TournamentList = TournamentListItem[]
+
+
+export interface TournamentData {
+  code: string,
+  message: string,
+  data: {
+    tournament_list: TournamentList
+  }
+} 

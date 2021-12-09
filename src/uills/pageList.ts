@@ -1,37 +1,25 @@
-const map = new Map()
+import { useMemo } from "react"
 
-const getBigNum = (num: number) => {
-  if (Math.trunc(num) < num) {
-    return Math.trunc(num) + 1
-  }
-    return num 
-}
 
-const transFromPageList = (arr: any[] | undefined, page: number = 0, nums: number = 100) => {
+// const rounding = (num: number) => {
+//   if (Math.trunc(num) < num) {
+//     return Math.trunc(num) + 1
+//   }
+//     return num 
+// }
+
+// const getGroupLength = (arr: any[] | undefined, groupsItemNum: number) => {
+//   if (!arr) return 0
+//   return rounding(arr.length / groupsItemNum)
+// }
+
+const transFromPageList = (arr: any[] | undefined, page: number = 0, groupsItemNum: number) => {
   if (!arr) return []
-  const res: any[] = []
-  let min = 0
-  let len = arr.length
-  let max = Math.min(len, nums)
-  // let obj: any = {}
-  for (let i = 0; i < getBigNum(len / nums); i++) {
-    // obj['page' + String(i)] = arr.slice(min, max)
-    res.push(arr.slice(min, max))
-    min += nums
-    max = Math.min(len, nums + min)
-
-  }
-  return res[page] || []
+  return arr.slice(0, page * groupsItemNum + 1)
 }
 
-let test: any = []
-export const usePageList = (arr: any[] | undefined, page: number) => {
-  
-  // map.set(name, transFromPageList(arr))
-  // test.concat(transFromPageList(arr, page))
-  if (transFromPageList(arr, page)) {
-    test.push(...transFromPageList(arr, page))
-    return test
+export const usePageList = 
+  (arr: any[] | undefined, page: number, groupsItemNum: number = 100) => {
+    return transFromPageList(arr, page, groupsItemNum)
   }
-  // return transFromPageList(arr, page)
-}
+
