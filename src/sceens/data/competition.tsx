@@ -1,12 +1,13 @@
 import React, { useMemo, useState } from 'react'
-import { FlatList, Text, ActivityIndicator } from 'react-native'
+import { FlatList, Text, ActivityIndicator, Pressable, StyleSheet, View } from 'react-native'
 import { useTournamentList } from './utils';
 import styled from 'styled-components/native'
 import {widthUnit as w, heightUnit as h} from 'rn-flexible'
 import { NomalImage, StandRowBox, FlexBox, SmallText, StandardTitle, StandardText } from '../../styles/standard';
-import { TournamentList } from '../../types/competition';
+import { TournamentList, TournamentListItem } from '../../types/competition';
 import { usePageList } from '../../uills/pageList';
 import { Details } from './detail';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 interface Lodingprops {
   loading: boolean
@@ -21,11 +22,23 @@ const ListFooterComponent:React.FC<Lodingprops> =
     return <ActivityIndicator size="small" color="#0000ff" animating={props.loading} />
   }
 
+const ListItem = (props: {item: TournamentListItem}) => {
+  return (
+    <StandRowBox >
+      <NomalImage source={{uri: props.item.list_image_url}} />
+      <FlexBox>
+        <StandardText>{props.item.name}</StandardText>
+        <SmallText>{props.item.start_date}至{props.item.end_date}</SmallText>
+      </FlexBox>
+    </StandRowBox>)
+}
+
+
+
 const CompetitionList:React.FC<CompetitionListProps> = React.memo(
   (props) => {
     const [page, setpage] = useState(0)
     const [loading, setloading] = useState(false)
-    
     const list = useMemo<TournamentList>(() => 
       usePageList(props.list, page),
       [props.list, page]
@@ -42,17 +55,20 @@ const CompetitionList:React.FC<CompetitionListProps> = React.memo(
       })
     }
 
-    const renderItem = useMemo(() =>
-    ({item}: {item:any} ) => {
-        return <StandRowBox>
-          <NomalImage source={{uri: item.list_image_url}} />
-          <FlexBox>
-            <StandardText>{item.name}</StandardText>
-            <SmallText>{item.start_date}至{item.end_date}</SmallText>
-          </FlexBox>
-        </StandRowBox>
-    }
-    , [props.list])
+    const renderItem = ({item}: {item: TournamentListItem} ) =>  (
+        <Pressable 
+          style={
+            ({ pressed }) => [
+              {
+                backgroundColor: pressed
+                  ? '#ECE9E6'
+                  : 'white'
+              }
+            ]
+          }>
+          <ListItem item={item} ></ListItem>
+        </Pressable>
+      )
   
     return(
       <FlatList 
@@ -66,8 +82,7 @@ const CompetitionList:React.FC<CompetitionListProps> = React.memo(
          onEndReached={onEndReach}
          ListFooterComponent={<ListFooterComponent loading={loading}></ListFooterComponent>}
          onEndReachedThreshold={0}
-       >
-      </FlatList>
+       />
      )
   }
 )
