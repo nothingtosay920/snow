@@ -7,7 +7,7 @@ import { NomalImage, StandRowBox, FlexBox, SmallText, StandardTitle, StandardTex
 import { TournamentList, TournamentListItem } from '../../types/competition';
 import { usePageList } from '../../uills/pageList';
 import { Details } from './detail';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import { useLinkTo, useNavigation } from '@react-navigation/native';
 
 interface Lodingprops {
   loading: boolean
@@ -37,6 +37,7 @@ const ListItem = (props: {item: TournamentListItem}) => {
 
 const CompetitionList:React.FC<CompetitionListProps> = React.memo(
   (props) => {
+    const LinkTo = useLinkTo()
     const [page, setpage] = useState(0)
     const [loading, setloading] = useState(false)
     const list = useMemo<TournamentList>(() => 
@@ -54,22 +55,26 @@ const CompetitionList:React.FC<CompetitionListProps> = React.memo(
         return prev + 1
       })
     }
-
-    const renderItem = ({item}: {item: TournamentListItem} ) =>  (
-        <Pressable 
-          style={
-            ({ pressed }) => [
-              {
-                backgroundColor: pressed
-                  ? '#ECE9E6'
-                  : 'white'
-              }
-            ]
-          }>
-          <ListItem item={item} ></ListItem>
-        </Pressable>
-      )
   
+    const renderItem = 
+      ({item}: {item: TournamentListItem} ) =>  {
+        return (
+          <Pressable 
+            onPressOut={() => LinkTo('/Details')}
+            style={
+              ({ pressed }) => [
+                {
+                  backgroundColor: pressed
+                    ? '#ECE9E6'
+                    : 'white'
+                }
+              ]
+            }>
+            <ListItem item={item} ></ListItem>
+          </Pressable>
+        )
+      }
+    
     return(
       <FlatList 
          data = {list}
@@ -88,7 +93,7 @@ const CompetitionList:React.FC<CompetitionListProps> = React.memo(
 )
 
 
-export const Competition = () => {
+export const Competition = ({navigation}: {navigation: any}) => {
   const { data: List, isError } = useTournamentList()
   
   return (
