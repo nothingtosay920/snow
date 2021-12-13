@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react'
+import React, { useEffect, useMemo, useRef, useState } from 'react'
 import { FlatList, Text, ActivityIndicator, Pressable, StyleSheet, View } from 'react-native'
 import { useTournamentList } from './utils';
 import styled from 'styled-components/native'
@@ -8,6 +8,7 @@ import { TournamentList, TournamentListItem } from '../../types/competition';
 import { usePageList } from '../../uills/pageList';
 import { Details } from './detail';
 import { useLinkTo, useNavigation } from '@react-navigation/native';
+import useTimeout from 'use-timeout'
 
 interface Lodingprops {
   loading: boolean
@@ -40,40 +41,41 @@ const CompetitionList:React.FC<CompetitionListProps> = React.memo(
     const LinkTo = useLinkTo()
     const [page, setpage] = useState(0)
     const [loading, setloading] = useState(false)
+    const timer = useRef(0)
     const list = useMemo<TournamentList>(() => 
       usePageList(props.list, page),
       [props.list, page]
     )
+    useTimeout(() => setloading(false), 1500)
 
     const onEndReach = () => {
       setloading(true)
-      const timer = setTimeout(() => {
-        setloading(false)
-        clearTimeout(timer)
-      }, 1500);
+      // timer.current = setTimeout(() => {
+      //   setloading(false)
+      //   clearTimeout(timer.current)
+      // }, 1500);
       setpage((prev) => {
         return prev + 1
       })
     }
-  
-    const renderItem = 
-      ({item}: {item: TournamentListItem} ) =>  {
-        return (
-          <Pressable 
-            onPressOut={() => LinkTo('/Details')}
-            style={
-              ({ pressed }) => [
-                {
-                  backgroundColor: pressed
-                    ? '#ECE9E6'
-                    : 'white'
-                }
-              ]
-            }>
-            <ListItem item={item} ></ListItem>
-          </Pressable>
-        )
-      }
+
+    const renderItem = ({item}: {item: TournamentListItem}) =>  {
+      return (
+        <Pressable 
+          onPressOut={() => LinkTo('/Details')}
+          style={
+            ({ pressed }) => [
+              {
+                backgroundColor: pressed
+                  ? '#ECE9E6'
+                  : 'white'
+              }
+            ]
+          }>
+          <ListItem item={item} ></ListItem>
+        </Pressable>
+      )
+    }
     
     return(
       <FlatList 

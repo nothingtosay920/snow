@@ -1,11 +1,10 @@
 import React from 'react'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { CompetitionIndex } from './sceens/data';
 import { Search } from './components/base/search';
 import { user, user_color } from './uills/imges';
 import styled from 'styled-components/native'
 import { heightUnit as h, widthUnit as w } from 'rn-flexible'
-import { getFocusedRouteNameFromRoute, useNavigationState } from '@react-navigation/native';
+import { Competition } from './sceens/data/competition';
 const Tab = createBottomTabNavigator();
 
 const TabImage = styled.Image`
@@ -17,7 +16,6 @@ export const Index = () => {
   return (
       <Tab.Navigator 
         screenOptions={({ route }) => ({
-          headerShown: false,
           tabBarIcon: ({ focused }) => {
             let icon
             if (route.name === '赛事') {
@@ -30,16 +28,7 @@ export const Index = () => {
       >
         <Tab.Screen 
           name="赛事" 
-          component={CompetitionIndex}
-          options={({route, navigation}) => {
-            const state = useNavigationState(state => state)
-            return ({
-              headerRight: () => <Search/>,
-              tabBarStyle: {
-                display: state && state.routes[0]?.state?.index ? 'none' : 'flex'
-              }
-            })
-          }}    
+          component={Competition}
         ></Tab.Screen>
       </Tab.Navigator>
   )

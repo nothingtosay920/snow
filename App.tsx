@@ -4,27 +4,18 @@ import { NavigationContainer } from '@react-navigation/native';
 import { QueryClientProvider, QueryClient } from 'react-query';
 import { Index } from './src';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { Details } from './src/sceens/data/detail';
 const queryClient = new QueryClient()
-const IndexStack = createNativeStackNavigator()
+const Stack = createNativeStackNavigator()
+
 export default function App() {
   return (
-    <NavigationContainer initialState={{
-      type: 'stack',
-      key: 'stack-1',
-      routeNames: ['Index'],
-      routes: [
-        { name: 'Index'}
-      ],
-      index: 1,
-    }}>
+    <NavigationContainer>
       <QueryClientProvider client={queryClient}>
-        <Index></Index>
-      {/* <IndexStack.Navigator>
-        <IndexStack.Screen 
-        
-        
-        name='Index' component={Index}></IndexStack.Screen>
-      </IndexStack.Navigator> */}
+        <Stack.Navigator screenOptions={{orientation: 'portrait'}}>
+          <Stack.Screen name='Index' component={Index} options={{headerShown: false}}></Stack.Screen>
+          <Stack.Screen name='Details' component={Details}></Stack.Screen>
+        </Stack.Navigator>
       </QueryClientProvider>
     </NavigationContainer>
   );
