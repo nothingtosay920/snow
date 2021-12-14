@@ -15,7 +15,14 @@ import { useMemo } from "react"
 
 const transFromPageList = (arr: any[] | undefined, page: number = 0, groupsItemNum: number) => {
   if (!arr) return []
-  return arr.slice(0, page * groupsItemNum + 1)
+  const res = []
+  const list = arr.slice(0, page * groupsItemNum + 1)
+  for (let i = 0; i < groupsItemNum / 20; i++) {
+    res.push(list.slice(20 * i, 20 * (i+1)))
+    
+  }
+  // arr.slice(0, page * groupsItemNum + 1)
+  return res
 }
 
 export const usePageList = 

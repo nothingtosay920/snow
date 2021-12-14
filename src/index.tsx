@@ -5,6 +5,8 @@ import { user, user_color } from './uills/imges';
 import styled from 'styled-components/native'
 import { heightUnit as h, widthUnit as w } from 'rn-flexible'
 import { Competition } from './sceens/data/competition';
+import { View } from 'react-native';
+import { Details } from './sceens/data/detail';
 const Tab = createBottomTabNavigator();
 
 const TabImage = styled.Image`

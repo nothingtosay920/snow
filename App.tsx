@@ -5,6 +5,7 @@ import { QueryClientProvider, QueryClient } from 'react-query';
 import { Index } from './src';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { Details } from './src/sceens/data/detail';
+import { Text, View } from 'react-native';
 const queryClient = new QueryClient()
 const Stack = createNativeStackNavigator()
 
