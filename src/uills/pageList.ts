@@ -5,48 +5,47 @@ const rounding = (num: number) => {
     return num 
 }
 
-// const getGroupLength = (arr: any[] | undefined, groupsItemNum: number) => {
-//   if (!arr) return 0
-//   return rounding(arr.length / groupsItemNum)
-// }
 type pageListOptions = {
   groupsItemNum: number,  // 全部数组中的项数之和
   groupsNums: number // 数组内对象数
 }
-const getIistNums = (arr: any[], page: number, options: pageListOptions) => arr.slice(0, (page + 1) * options.groupsItemNum)
-const getItemsNums = (groupsItemNum: number, groupsNums: number) => rounding(groupsItemNum / groupsNums)
-const addObjList = (arr: any[], options: pageListOptions) => {
-  const res = []
+export type pageObj = {
+  id: number,
+  list: any[]
+}
+type pageList = pageObj[]
+const getIistNums = (arr: any[], page: number, groupsItemNum: number) => arr.slice(0, (page + 1) * groupsItemNum)
+// const getItemsNums = (groupsItemNum: number, groupsNums: number) => rounding(groupsItemNum / groupsNums)
+const addObjList = (arr: any[], groupsItemNum: number): pageList => {
+  const res: pageList = []
   let i = 0
-  const itemNums = getItemsNums(options.groupsItemNum, options.groupsNums)
-  while (i < rounding(arr.length / options.groupsItemNum) ) {
+  // const itemNums = getItemsNums(options.groupsItemNum, options.groupsNums)
+  while (i < rounding(arr.length / groupsItemNum) ) {
     const obj = {}
-    const array = arr.slice(options.groupsItemNum * i, options.groupsItemNum * (i + 1))
+    const array = arr.slice(groupsItemNum * i, groupsItemNum * (i + 1))
     if (!array.length) return res
-    const li = []
-    for (let j =  0; j < options.groupsNums; j++) {
-      if (array.slice(itemNums * j, itemNums * (j + 1)).length) {
-        li.push(array.slice( itemNums * j, itemNums * (j+1)))
-      }
-    }
+    // for (let j =  0; j < options.groupsNums; j++) {
+    //   if (array.slice(itemNums * j, itemNums * (j + 1)).length) {
+    //     li.push(array.slice( itemNums * j, itemNums * (j+1)))
+    //   }
+    // }
     obj['id'] = i
-    obj['list'] = li
-    res.push(obj)
+    obj['list'] = array
+    res.push(obj as pageObj)
     i++
   }
   return res
 }
 
-const transFromPageList = (arr: any[] | undefined, options: pageListOptions) => {
-  if (!arr) return []
-  return addObjList(arr, options)
+const transFromPageList = (array: any[] | undefined, groupsItemNum: number) => {
+  if (!array?.length) return []
+  return addObjList(array, groupsItemNum)
 }
 
 export const usePageList = 
-  (arr: any[] | undefined, page: number, options: pageListOptions = { groupsItemNum: 100, groupsNums: 2 }) => {
-    if(!arr) return []
-    const listNums = getIistNums(arr, page, options)
-    return transFromPageList(listNums, options)
+  (arr: any[] | undefined, page: number, groupsItemNum: number = 30) => {
+    if (!arr?.length) return {}
+    const list = getIistNums(arr, page, groupsItemNum)
+    return {list: transFromPageList(list, groupsItemNum), pages: rounding(arr.length/groupsItemNum)}
   }
 
-// console.log(usePageList([1,2,3,4,5,6,7,8,1,2,3,4,5,6,7,8,1,2,3,4,5,6,7,8,1,2,3,4,5,6,7,81,2,3,4,5,6,7,81,2,3,4,5,6,7,81,2,3,4,5,6,7,8,1,2,3,4,5,6,7,8], 0));

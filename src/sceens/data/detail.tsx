@@ -1,24 +1,25 @@
 import { useRoute } from '@react-navigation/native';
-import React from 'react'
-import { SafeAreaView, View, FlatList, StyleSheet, Text, StatusBar, Pressable } from 'react-native';
+import React, { useContext } from 'react'
+import { SafeAreaView, View, FlatList, StyleSheet, Text, StatusBar, Dimensions } from 'react-native';
+import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
+import { Schedule } from './schedule';
+import { Data } from './data';
 
+const Tab = createMaterialTopTabNavigator();
+
+
+export const ParamsContext = React.createContext({})
 
 export const Details =  () => {
-  
+  const route = useRoute()
+  return (
+    <ParamsContext.Provider value={route.path}>
+      <Tab.Navigator>
+        <Tab.Screen name="赛程" component={Schedule} />
+        <Tab.Screen name="赛事数据" component={Data} />
+      </Tab.Navigator>
+    </ParamsContext.Provider>
+  );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    marginTop: StatusBar.currentHeight || 0,
-  },
-  item: {
-    backgroundColor: '#f9c2ff',
-    padding: 20,
-    marginVertical: 8,
-    marginHorizontal: 16,
-  },
-  title: {
-    fontSize: 32,
-  },
-});
+
