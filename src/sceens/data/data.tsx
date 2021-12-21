@@ -2,12 +2,17 @@ import { useRoute } from '@react-navigation/native'
 import React, { useContext } from 'react'
 import { View, Text } from 'react-native'
 import { ParamsContext } from './detail'
-import { Test } from './test'
+import { useTouranmentData } from './utils'
 
 export const Data = () => {
-  const route = useRoute()
-  const context = useContext(ParamsContext)
+  const data = useContext(ParamsContext)
+  // const {list, isError} = useTouranmentData(id)
+
   return (
-    <Text>this is data{route.name}{route.path}{context}</Text>
+    <>
+      {/* {isError ? <View>Error</View> : */}
+        <View></View>
+       {/* } */}
+    </>
   )
 }

@@ -13,7 +13,7 @@ export const Linking: LinkingOptions = {
         }
       },
       Details: {
-        path: '/details/:id',
+        path: '/details',
         screens: {
           Data: 'data',
           // Schedule: {

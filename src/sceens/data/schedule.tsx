@@ -4,8 +4,8 @@ import { Text, View } from 'react-native'
 import { ParamsContext } from './detail'
 
 export const Schedule = () => {
-  const route = useRoute()
+  const id = useContext(ParamsContext)?.id
   return (
-    <Text>this is data{route.name}{route.path}</Text>
+    <Text>this is Schedule{id}</Text>
   )
 }

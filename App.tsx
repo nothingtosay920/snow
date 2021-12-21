@@ -5,20 +5,17 @@ import { QueryClientProvider, QueryClient } from 'react-query';
 import { Index } from './src';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { Details } from './src/sceens/data/detail';
-import { Text, View } from 'react-native';
-import { Linking } from './src/screen-config/linking';
-import { Test } from './src/sceens/data/test';
+// import { Linking } from './src/screen-config/linking';
 const queryClient = new QueryClient()
 const Stack = createNativeStackNavigator()
 
 export default function App() {
   return (
-    <NavigationContainer linking={Linking}>
+    <NavigationContainer>
       <QueryClientProvider client={queryClient}>
         <Stack.Navigator screenOptions={{orientation: 'portrait'}}>
           <Stack.Screen name='Index' component={Index} options={{headerShown: false}}></Stack.Screen>
           <Stack.Screen name='Details' component={Details}></Stack.Screen>
-          <Stack.Screen name='Test' component={Test}></Stack.Screen>
         </Stack.Navigator>
       </QueryClientProvider>
     </NavigationContainer>

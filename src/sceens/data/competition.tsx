@@ -24,7 +24,6 @@ const ListFooterComponent:React.FC<Lodingprops> =
 
 const CompetitionList:React.FC<CompetitionListProps> = React.memo(
   (props) => {
-    const LinkTo = useLinkTo()
     const [page, setpage] = useState(0)
     const [loading, setloading] = useState(false)
     const navigation = useNavigation()
@@ -34,7 +33,7 @@ const CompetitionList:React.FC<CompetitionListProps> = React.memo(
     )
     
     const onEndReach = () => {
-        if (list.pages && page < list.pages) {
+        if (list.pages && page < list.pages - 1) {
           setpage((prev) => {
             return prev + 1
           })
@@ -45,16 +44,16 @@ const CompetitionList:React.FC<CompetitionListProps> = React.memo(
       (props: {item: TournamentListItem}) => {
         return (
           <Pressable
-                 onPressOut={() => LinkTo(`/details/${props.item.tournamentID}`)} 
-                 style={
-                   ({ pressed }) => [
-                     {
-                       backgroundColor: pressed
-                         ? '#ECE9E6'
-                         : 'white'
-                     }
-                   ]
-                 }> 
+            // onPressOut={() => navigation.navigate(`Details`, {id: props.item.tournamentID})} 
+            style={
+              ({ pressed }) => [
+                {
+                  backgroundColor: pressed
+                    ? '#ECE9E6'
+                    : 'white'
+                }
+              ]
+            }> 
           <StandRowBox >
             <NomalImage source={{uri: props.item.list_image_url}} />
             <FlexBox>
@@ -69,12 +68,15 @@ const CompetitionList:React.FC<CompetitionListProps> = React.memo(
       }
     )    
 
-    const renderItem = ({item, index}: {item: pageObj, index: number}) => {
-      const ltems = item.list.map((i) => {
-        return <ListItem item={i} ></ListItem>
-      })
-      return <View>{ltems}</View>
-    }
+    const renderItem = 
+      ({item, index}: {item: pageObj, index: number}) => {
+        console.log('123');
+        
+        const ltems = item.list.map((i) => {
+          return <ListItem item={i} ></ListItem>
+        })
+        return <View>{ltems}</View>
+      }
     
       return(
         <FlatList 

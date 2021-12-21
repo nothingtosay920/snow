@@ -1,5 +1,6 @@
 import qs from 'qs'
 import { useCallback } from 'react'
+import { baseAPI } from './base-url'
 
 interface Config extends RequestInit {
   data?: object
@@ -15,7 +16,7 @@ export const http =  (
   address: string, 
   { data, token, headers, url, ...customConfig }: Config = { method: 'GET' }
 ) => {
-    const apiUrl = isURL(address) ? address : `${process.env.REACT_APP_API_URL}/${address}`
+    const apiUrl = isURL(address) ? address : `${baseAPI}/${address}`
     const config = {
       method: 'Get',
       headers: {
