@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react'
-import { FlatList, Text, ActivityIndicator, Pressable, StyleSheet, View, TouchableHighlight, VirtualizedList } from 'react-native'
+import { FlatList, Text, ActivityIndicator, Pressable, StyleSheet, View, TouchableHighlight, VirtualizedList, Dimensions } from 'react-native'
 import { useTournamentList } from './utils';
 import styled from 'styled-components/native'
 import {widthUnit as w, heightUnit as h} from 'rn-flexible'
@@ -7,6 +7,8 @@ import { NomalImage, StandRowBox, FlexBox, SmallText, StandardTitle, StandardTex
 import { TournamentList, TournamentListItem } from '../../types/competition';
 import { pageObj, usePageList } from '../../uills/pageList';
 import { useLinkTo, useNavigation, useRoute } from '@react-navigation/native';
+import { DataProvider, LayoutProvider, RecyclerListView } from 'recyclerlistview';
+import { newPageList } from '../../uills/newPage';
 
 interface Lodingprops {
   loading: boolean
@@ -22,17 +24,19 @@ const ListFooterComponent:React.FC<Lodingprops> =
     return <ActivityIndicator size="small" color="#0000ff" animating={props.loading} />
   }
 
-const CompetitionList:React.FC<CompetitionListProps> = React.memo(
+export const CompetitionList:React.FC<CompetitionListProps> = React.memo(
   (props) => {
     const [page, setpage] = useState(0)
     const [loading, setloading] = useState(false)
     const navigation = useNavigation()
+    const {width, height} = Dimensions.get('window')
     const list = useMemo(() => 
-      usePageList(props.list, page),
+      newPageList(props.list, page),
       [props.list, page]
     )
     
     const onEndReach = () => {
+      
         if (list.pages && page < list.pages - 1) {
           setpage((prev) => {
             return prev + 1
@@ -60,7 +64,7 @@ const CompetitionList:React.FC<CompetitionListProps> = React.memo(
               <StandardText>{props.item.name}</StandardText>
               <SmallText>{props.item.start_date}至{props.item.end_date}</SmallText>
     
-            </FlexBox>
+            </FlexBox> 
           </StandRowBox> 
           </Pressable>
           )
@@ -69,32 +73,46 @@ const CompetitionList:React.FC<CompetitionListProps> = React.memo(
     )    
 
     const renderItem = 
-      ({item, index}: {item: pageObj, index: number}) => {
-        console.log('123');
-        
-        const ltems = item.list.map((i) => {
-          return <ListItem item={i} ></ListItem>
-        })
-        return <View>{ltems}</View>
+      (type, data: TournamentListItem) => {        
+        return <ListItem item={data}></ListItem>
       }
-    
+      
+    const dataProvider = new DataProvider((r1, r2) => {
+      return r1.tournamentID !== r2.tournamentID; 
+    }) 
+
+    const layoutProvider = new LayoutProvider(() => 0, (type, dim) => {
+      switch (type) { 
+        default:
+          dim.width = width
+          dim.height = h(1.2)
+          break;
+      }
+    }) 
+
       return(
-        <FlatList 
-          data = {list.list}
-          renderItem={renderItem}
-          ItemSeparatorComponent={Separation}
-          maxToRenderPerBatch={20}
-          windowSize={80}
-          initialNumToRender={20}
-          keyExtractor={(item, index) => {
-            return item.id.toString()
-          }}
-          // onRefresh={onRefresh}
-          // refreshing={true}
+        // <FlatList 
+        //   data = {list.list}
+        //   renderItem={renderItem}
+        //   ItemSeparatorComponent={Separation}
+        //   maxToRenderPerBatch={20}
+        //   windowSize={80}
+        //   initialNumToRender={20}
+        //   keyExtractor={(item, index) => {
+        //     return item.id.toString()
+        //   }}
+        //   // onRefresh={onRefresh}
+        //   // refreshing={true}
+        //   onEndReached={onEndReach}
+        //   // ListFooterComponent={<ListFooterComponent setloading={setloading} loading={loading}></ListFooterComponent>}
+        //   onEndReachedThreshold={0}
+        //    />
+        <RecyclerListView
+          dataProvider={dataProvider.cloneWithRows(list.list as any)}
+          layoutProvider={layoutProvider}
+          rowRenderer={renderItem}
           onEndReached={onEndReach}
-          // ListFooterComponent={<ListFooterComponent setloading={setloading} loading={loading}></ListFooterComponent>}
-          onEndReachedThreshold={0}
-           />
+        />
      )
   }
 )
@@ -105,10 +123,12 @@ export const Competition = ({navigation}: {navigation: any}) => {
   
   return (
     <>
-      <StandardTitle>职业赛事</StandardTitle>
+      { List ? <>
+        <StandardTitle>职业赛事</StandardTitle>
       <CompetitionList 
         list={List?.data.tournament_list}
-       ></CompetitionList> 
+       ></CompetitionList>
+      </> : <View></View>}
     </>
   );
 }

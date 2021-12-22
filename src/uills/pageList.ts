@@ -34,6 +34,7 @@ const addObjList = (arr: any[], groupsItemNum: number): pageList => {
     res.push(obj as pageObj)
     i++
   }
+  
   return res
 }
 
@@ -44,6 +45,7 @@ const transFromPageList = (array: any[] | undefined, groupsItemNum: number) => {
 
 export const usePageList = 
   (arr: any[] | undefined, page: number, groupsItemNum: number = 30) => {
+    
     if (!arr?.length) return {}
     const list = getIistNums(arr, page, groupsItemNum)
     return {list: transFromPageList(list, groupsItemNum), pages: rounding(arr.length/groupsItemNum)}

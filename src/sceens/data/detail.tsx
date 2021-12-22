@@ -2,7 +2,7 @@ import { useRoute } from '@react-navigation/native';
 import React, { useContext } from 'react'
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import { Schedule } from './schedule';
-import { Data } from './data';
+import RecycleTestComponent  from './data';
 import { useTouranmentData } from './utils';
 import { View } from 'react-native';
 import { TournamentData } from '../../types/competition';
@@ -30,7 +30,7 @@ export const Details =  () => {
       <ParamsContext.Provider value={data}>
       <Tab.Navigator>
         <Tab.Screen name="赛程" component={Schedule} />
-        <Tab.Screen name="赛事数据" component={Data} />
+        <Tab.Screen name="赛事数据" component={RecycleTestComponent} />
       </Tab.Navigator>
      </ParamsContext.Provider>
     }
