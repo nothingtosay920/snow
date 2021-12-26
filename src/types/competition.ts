@@ -27,16 +27,33 @@ export type roundType = {
   
 }[]
 
-export interface TournamentDataList {
-  roundID: string,
+type matchItem = {
+  match_id: string,
   tournamentID: string,
-  name: string,
-  name_en: string,
-  is_now_week: string,
-  is_use_tree: string,
-  is_use_points: string,
-  r_type: number,
-  round_son: roundType
+  tournament_name: string,
+  round_name: string,
+  start_date: string,
+  start_time: string,
+  status: string,
+  team_a_image: string,
+  team_b_image: string,
+  team_a_short_name: string,
+  team_b_short_name: string,
+  team_a_win: string,
+  team_b_win: string,
+  team_a_star_id: string,
+  team_b_star_id: string
 }
 
-export type TournamentData = TournamentDataList[]
+export interface TDataList {
+  code: string,
+  message: string,
+  data: {
+    start_end: {
+      count: string,
+      list: matchItem
+    }
+  }
+}
+
+export type TournamentData = TDataList[]

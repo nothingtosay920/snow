@@ -1,5 +1,5 @@
 import { useQuery } from "react-query"
-import { CompetitionData, TournamentData } from "../../types/competition"
+import { CompetitionData, TDataList } from "../../types/competition"
 import { useHttp } from "../../uills/http"
 import {competitionAPI, tournamentData}  from '../../uills/base-url'
 
@@ -10,9 +10,18 @@ export const useTournamentList = () => {
   )
 }
 
-export const useTouranmentData = (id: string | undefined) => {
+const useTouranmentData = (id: string | undefined, page: number) => {
   const client = useHttp()
-  return useQuery<TournamentData>(['touranmentData', id], () => 
-    client(tournamentData+id+'.json') 
+  return useQuery<TDataList>(['touranmentData', id, page], () => 
+    client(tournamentData + id + '&page=' + page) 
   )
+}
+const Tdata: any[] = []
+export const getTouranmentData = (id: string | undefined, page: number) => {
+  const {data} = useTouranmentData(id, page)
+  
+  if (data?.code == '200') {
+    Tdata.push(data.data.start_end)
+  }
+  return Tdata
 }

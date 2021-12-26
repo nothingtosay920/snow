@@ -1,13 +1,15 @@
 import { useRoute } from '@react-navigation/native'
-import React, { useContext } from 'react'
+import React, { useContext, useState } from 'react'
 import { View, Text } from 'react-native'
 import { ParamsContext } from './detail'
-import { useTouranmentData } from './utils'
+import { getTouranmentData } from './utils'
 
 export const Data = () => {
-  const data = useContext(ParamsContext)
-  // const {list, isError} = useTouranmentData(id)
-
+  const id = useContext(ParamsContext)
+  const [page, setpage] = useState(0)
+  const list = getTouranmentData(id, page)
+  console.log(list[1]);
+    
   return (
     <>
       {/* {isError ? <View>Error</View> : */}

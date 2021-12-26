@@ -1,11 +1,10 @@
 import { useRoute } from '@react-navigation/native'
 import React, { useContext } from 'react'
 import { Text, View } from 'react-native'
-import { ParamsContext } from './detail'
 
 export const Schedule = () => {
-  const id = useContext(ParamsContext)?.id
+  // const id = useContext(ParamsContext)
   return (
-    <Text>this is Schedule{id}</Text>
+    <Text>this is Schedule</Text>
   )
 }

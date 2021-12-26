@@ -5,7 +5,6 @@ import styled from 'styled-components/native'
 import {widthUnit as w, heightUnit as h} from 'rn-flexible'
 import { NomalImage, StandRowBox, FlexBox, SmallText, StandardTitle, StandardText } from '../../styles/standard';
 import { TournamentList, TournamentListItem } from '../../types/competition';
-import { pageObj, usePageList } from '../../uills/pageList';
 import { useLinkTo, useNavigation, useRoute } from '@react-navigation/native';
 import { DataProvider, LayoutProvider, RecyclerListView } from 'recyclerlistview';
 import { newPageList } from '../../uills/newPage';
@@ -48,7 +47,7 @@ export const CompetitionList:React.FC<CompetitionListProps> = React.memo(
       (props: {item: TournamentListItem}) => {
         return (
           <Pressable
-            // onPressOut={() => navigation.navigate(`Details`, {id: props.item.tournamentID})} 
+            onPressOut={() => navigation.navigate(`Details`, {id: props.item.tournamentID})} 
             style={
               ({ pressed }) => [
                 {
@@ -73,7 +72,7 @@ export const CompetitionList:React.FC<CompetitionListProps> = React.memo(
     )    
 
     const renderItem = 
-      (type, data: TournamentListItem) => {        
+      (type: any, data: TournamentListItem) => {        
         return <ListItem item={data}></ListItem>
       }
       
