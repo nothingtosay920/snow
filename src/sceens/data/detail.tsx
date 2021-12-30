@@ -3,9 +3,9 @@ import React, { useContext } from 'react'
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import { Schedule } from './schedule';
 import { Data }  from './data';
-import { useTouranmentData } from './utils';
 import { View } from 'react-native';
 import { TDataList, TournamentData } from '../../types/competition';
+import { ParamsContext } from './context';
 
 const Tab = createMaterialTopTabNavigator();
 type detailParmas = {
@@ -17,11 +17,10 @@ type detailParmas = {
   }
 }
 
-export const ParamsContext = React.createContext<string | undefined>(undefined)
-
 export const Details =  () => {
   const route = useRoute<detailParmas>()
-   
+  console.log('datails');
+  
   return (
     <>
       <ParamsContext.Provider value={route.params.id}>

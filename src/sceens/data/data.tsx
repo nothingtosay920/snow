@@ -1,20 +1,18 @@
 import { useRoute } from '@react-navigation/native'
-import React, { useContext, useState } from 'react'
+import React, { useContext, useRef, useState } from 'react'
 import { View, Text } from 'react-native'
-import { ParamsContext } from './detail'
+import { ParamsContext } from './context'
 import { getTouranmentData } from './utils'
 
 export const Data = () => {
   const id = useContext(ParamsContext)
   const [page, setpage] = useState(0)
-  const list = getTouranmentData(id, page)
-  console.log(list[1]);
+  const list = useRef(getTouranmentData(id, page))
+  console.log(list.current.length, '----');
     
   return (
     <>
-      {/* {isError ? <View>Error</View> : */}
-        <View></View>
-       {/* } */}
+      <View></View>
     </>
   )
 }

@@ -16,12 +16,8 @@ const useTouranmentData = (id: string | undefined, page: number) => {
     client(tournamentData + id + '&page=' + page) 
   )
 }
-const Tdata: any[] = []
 export const getTouranmentData = (id: string | undefined, page: number) => {
-  const {data} = useTouranmentData(id, page)
-  
-  if (data?.code == '200') {
-    Tdata.push(data.data.start_end)
-  }
-  return Tdata
+  if (!id) return []
+  const {data, isError} = useTouranmentData(id, page)
+  return [data?.data.start_end]
 }
