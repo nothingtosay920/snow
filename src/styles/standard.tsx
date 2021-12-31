@@ -25,6 +25,13 @@ export const SmallText = styled.Text`
 export const StandardText = styled.Text`
   fontSize: ${w(0.4)}px;
 `
+export const LargeText = styled.Text`
+fontSize: ${w(0.6)}px;
+`
+export const LargeMarginText = styled.Text`
+fontSize: ${w(0.6)}px;
+  marginHorizontal: ${w(0.2)}px;
+`
 
 export const FlexBox = styled.View`
   flexDirection: column;

@@ -19,5 +19,7 @@ const useTouranmentData = (id: string | undefined, page: number) => {
 export const getTouranmentData = (id: string | undefined, page: number) => {
   if (!id) return []
   const {data, isError} = useTouranmentData(id, page)
+  console.log(data?.data.start_end);
+  
   return [data?.data.start_end]
 }

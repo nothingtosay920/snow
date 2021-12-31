@@ -27,7 +27,7 @@ export type roundType = {
   
 }[]
 
-type matchItem = {
+export type matchItem = {
   match_id: string,
   tournamentID: string,
   tournament_name: string,
