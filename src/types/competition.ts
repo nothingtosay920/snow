@@ -51,8 +51,16 @@ export interface TDataList {
   data: {
     start_end: {
       count: string,
-      list: matchItem
-    }
+      list: matchItem[]
+    },
+    startting:{
+      count: string,
+      list: matchItem[]
+    },
+    no_start: {
+      count: string,
+      list: matchItem[]
+    } 
   }
 }
 

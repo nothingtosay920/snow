@@ -19,14 +19,12 @@ type detailParmas = {
 
 export const Details =  () => {
   const route = useRoute<detailParmas>()
-  console.log('datails');
-  
   return (
     <>
       <ParamsContext.Provider value={route.params.id}>
       <Tab.Navigator>
-        <Tab.Screen name="赛程" component={Schedule} />
-        <Tab.Screen name="赛事数据" component={Data} />
+        <Tab.Screen name="赛程" component={Data} />
+        <Tab.Screen name="赛事数据" component={Schedule} />
       </Tab.Navigator>
      </ParamsContext.Provider>
     </>

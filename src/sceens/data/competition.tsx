@@ -29,6 +29,7 @@ export const CompetitionList:React.FC<CompetitionListProps> = React.memo(
     const [loading, setloading] = useState(false)
     const navigation = useNavigation()
     const {width, height} = Dimensions.get('window')
+    const y = useRef(0)
     const list = useMemo(() => 
       newPageList(props.list, page),
       [props.list, page]
@@ -47,7 +48,15 @@ export const CompetitionList:React.FC<CompetitionListProps> = React.memo(
       (props: {item: TournamentListItem}) => {
         return (
           <Pressable
-            onPressOut={() => navigation.navigate(`Details`, {id: props.item.tournamentID})} 
+            onPressIn={(pressEvent) => y.current = pressEvent.nativeEvent.locationY}
+            onPressOut={(pressEvent) => 
+            {
+              const locationY = pressEvent.nativeEvent.locationY
+              if (y.current === locationY ) {
+                navigation.navigate(`Details`, {id: props.item.tournamentID})
+              }
+            }
+          } 
             style={
               ({ pressed }) => [
                 {
@@ -57,14 +66,13 @@ export const CompetitionList:React.FC<CompetitionListProps> = React.memo(
                 }
               ]
             }> 
-          <StandRowBox >
-            <NomalImage source={{uri: props.item.list_image_url}} />
-            <FlexBox>
-              <StandardText>{props.item.name}</StandardText>
-              <SmallText>{props.item.start_date}至{props.item.end_date}</SmallText>
-    
-            </FlexBox> 
-          </StandRowBox> 
+            <StandRowBox >
+              <NomalImage source={{uri: props.item.list_image_url}} />
+              <FlexBox>
+                <StandardText>{props.item.name}</StandardText>
+                <SmallText>{props.item.start_date}至{props.item.end_date}</SmallText>
+              </FlexBox> 
+            </StandRowBox> 
           </Pressable>
           )
     
@@ -84,7 +92,7 @@ export const CompetitionList:React.FC<CompetitionListProps> = React.memo(
       switch (type) { 
         default:
           dim.width = width
-          dim.height = h(1.2)
+          dim.height = h(1)
           break;
       }
     }) 
@@ -132,7 +140,7 @@ export const Competition = ({navigation}: {navigation: any}) => {
   );
 }
 
-const Separation = styled.View`
+export const Separation = styled.View`
     height: 1px;
     width: ${w(8)}px;
     background: #e0e0e0;

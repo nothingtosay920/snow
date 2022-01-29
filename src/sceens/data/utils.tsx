@@ -10,16 +10,9 @@ export const useTournamentList = () => {
   )
 }
 
-const useTouranmentData = (id: string | undefined, page: number) => {
+export const useTouranmentData = (id: string | undefined, page: number) => {
   const client = useHttp()
   return useQuery<TDataList>(['touranmentData', id, page], () => 
     client(tournamentData + id + '&page=' + page) 
   )
-}
-export const getTouranmentData = (id: string | undefined, page: number) => {
-  if (!id) return []
-  const {data, isError} = useTouranmentData(id, page)
-  console.log(data?.data.start_end);
-  
-  return [data?.data.start_end]
 }
